@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  localstack-test:
+    image: localstack/localstack:2.3
+    ports:
+      - "4567:4566"
+    environment:
+      - SERVICES=dynamodb,s3
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "./init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  api-test:
+    build: .
+    ports:
+      - "5001:5000"
+    environment:
+      - DYNAMODB_ENDPOINT=http://localstack-test:4566
+      - S3_ENDPOINT=http://localstack-test:4566
+    depends_on:
+      - localstack-test
+
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      - API_BASE_URL=http://api-test:5000
+    depends_on:
+      - api-test
+    volumes:
+      - "./tests:/app/tests"

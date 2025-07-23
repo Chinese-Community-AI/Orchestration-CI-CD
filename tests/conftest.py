@@ -1,10 +1,11 @@
 import pytest
 import requests
 import time
+import os
 
 @pytest.fixture
 def api_base_url():
-    return "http://localhost:5000"
+    return os.getenv('API_BASE_URL', 'http://localhost:5000')
 
 @pytest.fixture
 def api_client(api_base_url):
