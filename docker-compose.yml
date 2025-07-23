@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   localstack:
     image: localstack/localstack:2.3
@@ -16,7 +14,7 @@ services:
   api:
     build: .
     ports:
-      - "5000:5000"
+      - "5001:5000"
     environment:
       - DYNAMODB_ENDPOINT=http://localstack:4566
       - S3_ENDPOINT=http://localstack:4566

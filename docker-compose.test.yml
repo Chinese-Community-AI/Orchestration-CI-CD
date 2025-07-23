@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   localstack-test:
     image: localstack/localstack:2.3
