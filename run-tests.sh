@@ -3,12 +3,12 @@
 echo "Starting TODO API test suite..."
 
 # Start test environment and run tests
-docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
+docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
 TEST_EXIT_CODE=$?
 
 # Clean up
 echo "Cleaning up test environment..."
-docker-compose -f docker-compose.test.yml down
+docker compose -f docker-compose.test.yml down
 
 # Exit with test result status
 if [ "$TEST_EXIT_CODE" = "0" ]; then
